@@ -1,0 +1,105 @@
+
+<html>
+	<head>
+		<title>...::: Stock Recomendations Evaluvator :::...</title>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+		<script>
+
+			function recommendation_submit(form) {
+				console.log(form)
+				console.log($(form).serialize)
+				console.log($(form).serialize())
+				$.post("http://localhost:8000/api/add_recommendations",
+					data=$(form).serialize(), function(data, status) {
+						console.log(status)
+						console.log(data)
+					})
+				return false
+			}
+
+		</script>
+	<head>
+	<body>
+
+		<form onsubmit="return recommendation_submit(this)"><table>
+
+		<tr>
+		<td><p>Date on which the recommendation was given</p></td>
+		<td><input name="date" type="date"></td>
+		</tr>
+
+		<tr>
+		<td><p>Time at which the recommendation was given</p></td>
+		<td><input name="time" type="time"></td>
+		</tr>
+
+		<tr>
+		<td><p>Stock symbol. Example RIL, HCL, etc ...</p></td>
+		<td><input name="symbol" type="text"></td>
+		</tr>
+
+		<tr>
+		<td><p>Stock name. Example Infosys etc ...</p></td>
+		<td><input name="name" type="text"></td>
+		</tr>
+
+		<tr>
+		<td><p>Analysis method</p></td>
+		<td><select name="method">
+			<option value="None">None</option>
+			<option value="Technical">Technical</option>
+			<option value="Fundamental">Fundamental</option>
+			<option value="Hybrid">Hybrid</option>
+		</select><br><br></td>
+		</tr>
+
+		<tr>
+		<td><p>Byr or Sell</p></td>
+		<td><select name="side">
+			<option value="Buy">Buy</option>
+			<option value="Sell">Sell</option>
+		</select><br><br></td>
+		</tr>
+
+		<tr>
+		<td><p>Buy Price</p></td>
+		<td><input name="buyPrice" type="text"></td>
+		</tr>
+
+		<tr>
+		<td><p>Sell Price</p></td>
+		<td><input name="sellPrice" type="text"></td>
+		</tr>
+
+		<tr>
+		<td><p>Minimum Duration in weeks / months / day
+		<br/>Example: 1M, 30D, 3W or 1Y</p></td>
+		<td><input name="minDuration" type="text"></td>
+		</tr>
+
+		<tr>
+		<td><p>Minimum Duration in weeks / months / day
+		<br/>Example: 1M, 30D, 3W or 1Y</p></td>
+		<td><input name="maxDuration" type="text"></td>
+		</tr>
+
+		<tr>
+		<td><p>Minimum Return in percentage</td>
+		<td><input name="minReturn" type="text"></td>
+		</tr>
+
+		<tr>
+		<td><p>Maximum Return in percentage</td>
+		<td><input name="maxReturn" type="text"></td>
+		</tr>
+
+		<tr>
+		<td><p>Submit</td>
+		<td><input name="submit" type="submit" value="Submit"></td>
+		</tr>
+
+		<table></form>
+
+	</body>
+</html>
+
