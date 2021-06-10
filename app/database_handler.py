@@ -1,6 +1,7 @@
 
 import pymongo
 
+from app.logging_handler import log
 from app.stock_actions import Execution
 from app.exit_handler import ExitHandler
 from app.configurations import MongoConfig
@@ -27,9 +28,9 @@ class MongoDbms(metaclass=Singleton):
     def init():
 
         dbms = None # short name
-
+        log.info("Initializing database connection")
         if MongoDbms.__dbms is None:
-            dbms = MongoDbms.__dbms = pymongo.MongoClient(MongoConfig.Url)
+            dbms = MongoDbms.__dbms = pymongo.MongoClient(MongoConfig.url)
 
         MongoDbms.__db = dbms[DATABASE_NAME]
 
@@ -50,6 +51,8 @@ class MetadataCollection(metaclass=Singleton):
         cn = METADATA_COLLECTION_NAME
         collection = MongoDbms.collection(cn)
         document = collection.find_one({})
+
+        log.info("Initializing metadata collection")
 
         ExitHandler.register(MetadataCollection.update_changes)
 

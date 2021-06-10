@@ -1,7 +1,9 @@
 
+from app.configurations import AngelBrokingConfig
 from datetime import datetime
 from smartapi import SmartConnect
 from app.metaclasses_definition import Singleton
+from app.logging_handler import log
 
 class AngelBroking(metaclass=Singleton):
 
@@ -14,9 +16,17 @@ class AngelBroking(metaclass=Singleton):
     @staticmethod
     def init():
 
-        connection=SmartConnect(api_key="BAIUxGLc")
+        log.info("Initializing Angel Broking connection")
+        
+        connection=SmartConnect(
+            api_key=AngelBrokingConfig.apiKey
+        )
 
-        data = connection.generateSession("D85774", "$Stock@2100")
+        data = connection.generateSession(
+            AngelBrokingConfig.username, 
+            AngelBrokingConfig.password
+        )
+
         refreshToken= data['data']['refreshToken']
         userProfile= connection.getProfile(refreshToken)
         feedToken=connection.getfeedToken()
