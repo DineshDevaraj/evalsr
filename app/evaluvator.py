@@ -1,6 +1,7 @@
 
 from datetime import datetime
 
+from app.logging_handler import log
 from app.angel_broking import AngelBroking
 from app.date_and_time import date_time_range
 from app.database_handler import ProfitLossCollection
@@ -90,10 +91,14 @@ def calculate_profitloss(symbolSet):
     if not symbolSet:
         symbolSet = RecommendationCollection.get_symbols_set()
 
+    log.debug("Total %d symbol(s) will be processed", len(symbolSet))
+    log.debug("Symbol list %s", " ".join(symbolSet))
+
     for symbol in symbolSet:
 
         dayCount = 1
 
+        log.debug("Start processing symbol %s", symbol)
         document = RecommendationCollection.find_one({"symbol":symbol})
         (startDatetime, endDatetime) = get_startend_datetime(document)
 
@@ -135,6 +140,7 @@ def calculate_profitloss(symbolSet):
         else:
             result[symbol] = "no opportunity to execute"
 
+        log.debug("Finish processing symbol %s", symbol)
         symbolCount += 1
 
     return result
